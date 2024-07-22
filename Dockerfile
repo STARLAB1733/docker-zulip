@@ -2,12 +2,14 @@
 # Zulip development environment image and use
 # tools/build-release-tarball to generate a production release tarball
 # from the provided Git ref.
-FROM ubuntu:20.04 as base
+FROM ubuntu:24.04 as base
 
 # Set up working locales and upgrade the base image
 ENV LANG="C.UTF-8"
 
 ARG UBUNTU_MIRROR
+
+#RUN apt-get -q update && apt-get -q upgrade -y
 
 RUN { [ ! "$UBUNTU_MIRROR" ] || sed -i "s|http://\(\w*\.\)*archive\.ubuntu\.com/ubuntu/\? |$UBUNTU_MIRROR |" /etc/apt/sources.list; } && \
     apt-get -q update && \
@@ -15,6 +17,8 @@ RUN { [ ! "$UBUNTU_MIRROR" ] || sed -i "s|http://\(\w*\.\)*archive\.ubuntu\.com/
     DEBIAN_FRONTEND=noninteractive \
         apt-get -q install --no-install-recommends -y ca-certificates git locales lsb-release python3 sudo tzdata
 
+
+RUN apt-get purge -y linux-libc-dev
 
 FROM base as build
 
