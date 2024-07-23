@@ -78,7 +78,7 @@ RUN \
     apt-get -qq clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN apt-get purge -y linux-libc-dev
+RUN apt-get purge -y linux-libc-dev binutils binutils-common binutils-x86-64-linux-gnu cpp cpp-x86-64-linux-gnu
 
 COPY entrypoint.sh /sbin/entrypoint.sh
 COPY certbot-deploy-hook /sbin/certbot-deploy-hook
